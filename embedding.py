@@ -4,7 +4,7 @@ class embed(nn.Module):
     def __init__(self, ls, cti_size, wti_size, hre = False):
         super().__init__()
         self.ls = ls # embedding module list
-        self.dim = sum(ls.values())
+        self.dim = sum(ls.values()) #
         self.hre = hre # hierarchical recurrent encoding
 
         # architecture
@@ -69,7 +69,7 @@ class embed(nn.Module):
         def __init__(self, vocab_size, embed_size, embedded = False):
             super().__init__()
             self.dim = embed_size
-            self.rnn_type = "GRU" # LSTM, GRU
+            self.rnn_type = "LSTM" # LSTM, GRU
             self.num_dirs = 2 # unidirectional: 1, bidirectional: 2
             self.num_layers = 2
             self.embedded = embedded # True: sent_embed, False: word_embed
@@ -153,8 +153,8 @@ class embed(nn.Module):
                 super().__init__()
                 self.D = dim # dimension of model
                 self.H = 8 # number of heads
-                self.Dk = self.D // self.H # dimension of key
-                self.Dv = self.D // self.H # dimension of value
+                self.Dk = self.D // self.H # dimension of key 300//8 = 37
+                self.Dv = self.D // self.H # dimension of value 300//8 = 37
 
                 # architecture
                 self.Wq = nn.Linear(self.D, self.H * self.Dk) # query
@@ -162,7 +162,17 @@ class embed(nn.Module):
                 self.Wv = nn.Linear(self.D, self.H * self.Dv) # value for context representation
                 self.Wo = nn.Linear(self.H * self.Dv, self.D)
                 self.dropout = nn.Dropout(DROPOUT)
-                self.norm = nn.LayerNorm(self.D)
+                #self.norm = nn.LayerNorm(self.D)
+                """
+                    (attn): attn_mh(
+                  (Wq): Linear(in_features=300, out_features=296, bias=True)
+                  (Wk): Linear(in_features=300, out_features=296, bias=True)
+                  (Wv): Linear(in_features=300, out_features=296, bias=True)
+                  (Wo): Linear(in_features=296, out_features=300, bias=True)
+                  (dropout): Dropout(p=0.5, inplace=False)
+                  (norm): LayerNorm((300,), eps=1e-05, elementwise_affine=True)
+                    )
+                """
 
             def attn_sdp(self, q, k, v, mask): # scaled dot-product attention
                 c = np.sqrt(self.Dk) # scale factor
@@ -181,7 +191,8 @@ class embed(nn.Module):
                 z = self.attn_sdp(q, k, v, mask)
                 z = z.transpose(1, 2).contiguous().view(b, -1, self.H * self.Dv)
                 z = self.Wo(z)
-                z = self.norm(x + self.dropout(z)) # residual connection and dropout
+                z = x + self.dropout(z)
+                # z = self.norm(x + self.dropout(z)) # residual connection and dropout
                 return z
 
         class ffn(nn.Module): # position-wise feed-forward networks
@@ -196,9 +207,20 @@ class embed(nn.Module):
                     nn.Dropout(DROPOUT),
                     nn.Linear(dim_ffn, dim)
                 )
-                self.norm = nn.LayerNorm(dim)
+                #self.norm = nn.LayerNorm(dim)
+                """
+                    (ffn): ffn(
+                  (layers): Sequential(
+                    (0): Linear(in_features=300, out_features=2048, bias=True)
+                    (1): ReLU()
+                    (2): Dropout(p=0.5, inplace=False)
+                    (3): Linear(in_features=2048, out_features=300, bias=True)
+                  )
+                  (norm): LayerNorm((300,), eps=1e-05, elementwise_affine=True)
+                )
+                """
 
             def forward(self, x):
                 z = x + self.layers(x) # residual connection
-                z = self.norm(z) # layer normalization
+                #z = self.norm(z) # layer normalization
                 return z
