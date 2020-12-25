@@ -3,7 +3,7 @@ from utils import *
 from evaluate import *
 from dataloader import *
 
-def load_data(args):
+def load_data():
     data = dataloader()
     batch = []
     cti = load_tkn_to_idx('./prepare_data/train.txt.char_to_idx') # char_to_idx
@@ -30,7 +30,7 @@ def load_data(args):
     print("batch size: %d" % BATCH_SIZE)
     return batch, cti, wti, itt
 
-def train(args):
+def train():
     num_epochs = 20
     batch, cti, wti, itt = load_data()
     model = rnn_crf(len(cti), len(wti), len(itt))
