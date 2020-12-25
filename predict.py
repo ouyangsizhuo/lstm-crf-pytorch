@@ -3,12 +3,17 @@ from utils import *
 from dataloader import *
 
 def load_model(args):
-    cti = load_tkn_to_idx(args[1]) # char_to_idx
-    wti = load_tkn_to_idx(args[2]) # word_to_idx
-    itt = load_idx_to_tkn(args[3]) # idx_to_tag
+    cti = load_tkn_to_idx('./prepare_data/train.txt.char_to_idx') # char_to_idx
+    wti = load_tkn_to_idx('./prepare_data/train.txt.word_to_idx') # word_to_idx
+    itt = load_idx_to_tkn('./prepare_data/train.txt.tag_to_idx') # idx_to_tag
     model = rnn_crf(len(cti), len(wti), len(itt))
+    """
+    cti:包括出现的所有字符（字母，标点，特殊符号，<PAD>,<SOS>,<EOS>,<UNK>等）
+    wti:包括train.txt中分词后出现的所有单词
+    itt:包括所有的标签
+    """
     print(model)
-    load_checkpoint(args[0], model)
+    load_checkpoint('model.epoch20', model)
     return model, cti, wti, itt
 
 def run_model(model, data, itt):
@@ -49,11 +54,10 @@ def predict(model, cti, wti, itt, filename):
     return run_model(model, data, itt)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 6:
-        sys.exit("Usage: %s model char_to_idx word_to_idx tag_to_idx test_data" % sys.argv[0])
-    result = predict(*load_model(sys.argv[1:5]), sys.argv[5])
+    result = predict('./prepare_data/test.txt', *load_model())
     func = tag_to_txt if TASK else lambda *x: x
+    test_out = open('test_out.tab', 'w',newline='\n')
     for x0, y0, y1 in result:
-        if y0:
-            print(func(x0, y0))
-        print(func(x0, y1))
+       for i in range(len(x0)):
+            test_out.write('{0}\t{1}\t{2}\n'.format(x0[i],y0[i],y1[i]))
+    test_out.close()
