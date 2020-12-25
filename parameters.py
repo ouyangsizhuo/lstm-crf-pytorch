@@ -8,15 +8,15 @@ TASK = "pos-tagging" # task (None, pos-tagging, word-segmentation, sentence-segm
 RNN_TYPE = "LSTM" # LSTM or GRU
 NUM_DIRS = 2 # unidirectional: 1, bidirectional: 2
 NUM_LAYERS = 2
-BATCH_SIZE = 64
+BATCH_SIZE = 32
 HRE = (UNIT == "sent") # hierarchical recurrent encoding
 EMBED = {"lookup": 300} # embeddings (char-cnn, char-rnn, lookup, sae)
 EMBED_SIZE = sum(EMBED.values())
 HIDDEN_SIZE = 1000
 DROPOUT = 0.5
 LEARNING_RATE = 2e-4
-EVAL_EVERY = 10
-SAVE_EVERY = 10
+EVAL_EVERY = 5
+SAVE_EVERY = 5
 
 PAD, PAD_IDX = "<PAD>", 0 # padding
 SOS, SOS_IDX = "<SOS>", 1 # start of sequence
