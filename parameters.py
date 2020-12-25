@@ -4,8 +4,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 UNIT = "word" # unit of tokenization (char, char+space, word, sent)
-TASK = None # task (None, pos-tagging, word-segmentation, sentence-segmentation)
-RNN_TYPE = "GRU" # LSTM or GRU
+TASK = "pos-tagging" # task (None, pos-tagging, word-segmentation, sentence-segmentation)
+RNN_TYPE = "LSTM" # LSTM or GRU
 NUM_DIRS = 2 # unidirectional: 1, bidirectional: 2
 NUM_LAYERS = 2
 BATCH_SIZE = 64
@@ -29,8 +29,8 @@ torch.manual_seed(0) # for reproducibility
 
 Tensor = torch.cuda.FloatTensor if CUDA else torch.FloatTensor
 LongTensor = torch.cuda.LongTensor if CUDA else torch.LongTensor
-randn = lambda *x: torch.randn(*x).cuda() if CUDA else torch.randn
-zeros = lambda *x: torch.zeros(*x).cuda() if CUDA else torch.zeros
+randn = lambda *x: torch.randn(*x).cuda() if CUDA else torch.randn(*x)
+zeros = lambda *x: torch.zeros(*x).cuda() if CUDA else torch.zeros(*x)
 
 KEEP_IDX = False # use the existing indices when adding more training data
 NUM_DIGITS = 4 # number of decimal places to print
