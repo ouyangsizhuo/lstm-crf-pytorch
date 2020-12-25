@@ -1,8 +1,6 @@
 from predict import *
 
 def evaluate(result, summary = False):
-    result = list(result)
-
     avg = defaultdict(float) # average
     tp = defaultdict(int) # true positives
     tpfn = defaultdict(int) # true positives + false negatives
@@ -36,27 +34,5 @@ def evaluate(result, summary = False):
     print("macro f1 = %f" % f1(avg["macro_pr"], avg["macro_rc"]))
     print("micro f1 = %f" % avg["micro_f1"])
 
-    if TASK == "word-segmentation":
-        print()
-        evaluate_word_segmentation(result)
-
-def evaluate_word_segmentation(result):
-    tp, tpfn, tpfp = 0, 0, 0
-    isbs = lambda x: x in ("B", "S")
-    for _, Y0, Y1 in result:
-        i = 0
-        tpfn += len(list(filter(isbs, Y0)))
-        tpfp += len(list(filter(isbs, Y1)))
-        for j, (y0, y1) in enumerate(zip(Y0 + ["B"], Y1 + ["B"])):
-            if j and isbs(y0) and isbs(y1):
-                tp += (Y0[i:j] == Y1[i:j])
-                i = j
-    print("TASK = %s" % TASK)
-    print("precision = %f (%d/%d)" % (tp / tpfp, tp, tpfp))
-    print("recall = %f (%d/%d)" % (tp / tpfn, tp, tpfn))
-    print("f1 = %f" % f1(tp / tpfp, tp / tpfn))
-
 if __name__ == "__main__":
-    if len(sys.argv) != 6:
-        sys.exit("Usage: %s model char_to_idx word_to_idx tag_to_idx test_data" % sys.argv[0])
-    evaluate(predict(*load_model(sys.argv[1:5]), sys.argv[5]))
+    evaluate(predict('./prepare_data/test.txt',*load_model()))
