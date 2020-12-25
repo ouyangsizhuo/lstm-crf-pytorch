@@ -4,7 +4,7 @@ class embed(nn.Module):
     def __init__(self, ls, cti_size, wti_size, hre = False):
         super().__init__()
         self.ls = ls # embedding module list
-        self.dim = sum(ls.values()) #
+        self.dim = sum(ls.values()) # dim = 300
         self.hre = hre # hierarchical recurrent encoding
 
         # architecture
