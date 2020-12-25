@@ -5,6 +5,7 @@ class rnn_crf(nn.Module):
     def __init__(self, cti_size, wti_size, num_tags):
         super().__init__()
         self.rnn = rnn(cti_size, wti_size, num_tags)
+        #self.embed = embed(EMBED, cti_size, wti_size, HRE)
         self.crf = crf(num_tags)
         self = self.cuda() if CUDA else self
 
@@ -35,10 +36,11 @@ class rnn(nn.Module):
 
         # architecture
         self.embed = embed(EMBED, cti_size, wti_size, HRE)
-        self.rnn = getattr(nn, RNN_TYPE)(
-            input_size = EMBED_SIZE,
-            hidden_size = HIDDEN_SIZE // NUM_DIRS,
-            num_layers = NUM_LAYERS,
+        #self.embed = embed({"lookup": 300}, cti_size, wti_size, HRE)
+        self.rnn = getattr(nn, RNN_TYPE)(   # RNN_TYPE = LSTM
+            input_size = EMBED_SIZE,    # 300
+            hidden_size = HIDDEN_SIZE // NUM_DIRS,  #1000//2
+            num_layers = NUM_LAYERS,    #2
             bias = True,
             batch_first = True,
             dropout = DROPOUT,
