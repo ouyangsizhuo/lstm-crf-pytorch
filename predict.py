@@ -2,7 +2,7 @@ from model import *
 from utils import *
 from dataloader import *
 
-def load_model(args):
+def load_model():
     cti = load_tkn_to_idx('./prepare_data/train.txt.char_to_idx') # char_to_idx
     wti = load_tkn_to_idx('./prepare_data/train.txt.word_to_idx') # word_to_idx
     itt = load_idx_to_tkn('./prepare_data/train.txt.tag_to_idx') # idx_to_tag
@@ -31,7 +31,7 @@ def run_model(model, data, itt):
                 for x0, y0, y1 in zip(x0, y0, y1):
                     yield x0, y0, y1
 
-def predict(model, cti, wti, itt, filename):
+def predict(filename, model, cti, wti, itt):
     data = dataloader()
     with open(filename) as fo:
         text = fo.read().strip().split("\n" * (HRE + 1))
