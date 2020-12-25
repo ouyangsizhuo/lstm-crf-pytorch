@@ -1,0 +1,15 @@
+<PAD>
+<SOS>
+<EOS>
+O
+B-AdverseReaction
+I-AdverseReaction
+B-Severity
+I-Severity
+B-Factor
+B-Animal
+I-Factor
+B-Negation
+I-Negation
+B-DrugClass
+I-DrugClass
