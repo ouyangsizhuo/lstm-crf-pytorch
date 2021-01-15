@@ -12,15 +12,26 @@ cd lstm-crf-pytorch
 
 数据来源：TAC2017adr
 下载地址：https://bionlp.nlm.nih.gov/tac2017adversereactions/
+
 （已下载好，解压train_xml.rar即可，共有101个.xml文件）
 将这些.xml文件转换成.tab格式
 （格式已转换好，解压tab.rar即可，其中包括train，valid，test三个文件夹）
 
+.tab文件格式为：
+```
+token tag
+token tag
+...
+```
+包含两列，第一列是单词，第二列是其对应的标签
 
-To prepare data:
+输入文件格式要求：
 ```
-python3 prepare.py training_data
+token/tag token/tag token/tag ...
+token/tag token/tag token/tag ...
+...
 ```
+分别将train，valid和test数据集转换成这样的输入格式，转换后的数据存放在prepare_data文件夹中，并命名为train.txt，valid.txt，test.txt。数据准备完毕。
 
 To train:
 ```
