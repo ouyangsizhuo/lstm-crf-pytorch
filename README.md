@@ -124,3 +124,8 @@ python3 predict.py
 perl conlleval.pl –d $'\t' <test_out.tab | tee test_out_lsc.eval
 ```
 
+## 注意事项
+
+①、在训练下一个模型之前需要把之前训练好的模型新建一个文件夹存放，（不要直接放在lstm-crf-pytorch这个文件夹下），然后再开始新模型的训练。
+
+②、训练时间较久，可以选用GPU加速。
