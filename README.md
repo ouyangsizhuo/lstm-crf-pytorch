@@ -3,13 +3,19 @@
 ## 数据介绍
 
 
-Training data should be formatted as below:
+数据准备
 ```
-token/tag token/tag token/tag ...
-token/tag token/tag token/tag ...
-...
+git clone https://github.com/ouyangsizhuo/lstm-crf-pytorch.git
+cd lstm-crf-pytorch
 ```
-For more detail, see README.md in each subdirectory.
+实验所需的所有文件都在这个文件夹中
+
+数据来源：TAC2017adr
+下载地址：https://bionlp.nlm.nih.gov/tac2017adversereactions/
+（已下载好，解压train_xml.rar即可，共有101个.xml文件）
+将这些.xml文件转换成.tab格式
+（格式已转换好，解压tab.rar即可，其中包括train，valid，test三个文件夹）
+
 
 To prepare data:
 ```
