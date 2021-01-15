@@ -37,7 +37,34 @@ token/tag token/tag token/tag ...
 
 ### 模型一：LSTM-CRF
 
-①、参数设置
+①、参数设置：（修改下列文件中对应行的代码）
+
+parameters.py：（第13行）
+```
+EMBED = {"lookup": 300}
+```
+predict.py：（第16行）
+```
+load_checkpoint('model.epoch20', model)
+```
+train.py：（第34行）
+```
+num_epochs = 20
+```
+②、训练过程
+```
+python3 train.py
+```
+这一步会得到训练好的模型并打印出模型结构
+```
+python3 predict.py
+```
+用训练好的模型进行预测，得到结果文件test_out.tab
+
+对结果进行评估
+```
+perl conlleval.pl –d $’\t’ <test_out.tab | tee test_out_lstm.eval
+```
 To train:
 ```
 python3 train.py model char_to_idx word_to_idx tag_to_idx training_data.csv (validation_data) num_epoch
