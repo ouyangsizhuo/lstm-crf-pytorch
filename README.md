@@ -33,9 +33,10 @@ token/tag token/tag token/tag ...
 ```
 分别将train，valid和test数据集转换成这样的输入格式，转换后的数据存放在prepare_data文件夹中，并命名为train.txt，valid.txt，test.txt。数据准备完毕。
 
-##模型训练
+## 模型训练
 
-###模型一：LSTM-CRF
+### 模型一：LSTM-CRF
+
 ①、参数设置
 To train:
 ```
