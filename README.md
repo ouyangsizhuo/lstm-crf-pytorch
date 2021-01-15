@@ -110,9 +110,10 @@ model.py：去掉第八行的注释，即在第7行和第9行之间加入第八�
 将第38行换成第39行（注释掉第38行，去掉第39行的注释）
 ```
 (7) self.rnn = rnn(cti_size, wti_size, num_tags)
-(8)	self.embed = embed(EMBED, cti_size, wti_size, HRE)
-(9)	self.crf = crf(num_tags)
+(8) self.embed = embed(EMBED, cti_size, wti_size, HRE)
+(9) self.crf = crf(num_tags)
 ... ...
+
 (38) self.embed = embed(EMBED, cti_size, wti_size, HRE)
 (39) self.embed = embed({"lookup": 300}, cti_size, wti_size, HRE)
 ```
