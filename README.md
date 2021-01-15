@@ -63,7 +63,7 @@ python3 predict.py
 
 对结果进行评估
 ```
-perl conlleval.pl –d $’\t’ <test_out.tab | tee test_out_lstm.eval
+perl conlleval.pl –d $'\t' <test_out.tab | tee test_out_lstm.eval
 ```
 
 ### 模型二：SA-LSTM-CRF
@@ -86,7 +86,7 @@ num_epochs = 30
 ```
 python3 train.py
 python3 predict.py
-perl conlleval.pl –d $’\t’ <test_out.tab | tee test_out_sa.eval
+perl conlleval.pl –d $'\t' <test_out.tab | tee test_out_sa.eval
 ```
 
 ### 模型三：LSTM-SA-CRF
@@ -121,6 +121,6 @@ model.py：去掉第八行的注释，即在第7行和第9行之间加入第八�
 ```
 python3 train.py
 python3 predict.py
-perl conlleval.pl –d $’\t’ <test_out.tab | tee test_out_lsc.eval
+perl conlleval.pl –d $'\t' <test_out.tab | tee test_out_lsc.eval
 ```
 
